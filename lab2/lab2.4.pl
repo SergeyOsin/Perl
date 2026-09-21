@@ -1,16 +1,8 @@
 #!/usr/bin/perl
 
-#!/usr/bin/perl
+%h = ();
 
-%h = (
-    "enter" => "abc",
-    "abc"   => "bcd",
-    "bcd"   => "cda",
-    "cda"   => "klm",
-    "klm"   => ""
-);
-
-$head = "enter";
+$head = undef;
 
 print "Меню:\n";
 print "1. Добавить лексему\n";
@@ -20,15 +12,17 @@ print "Любое другое число - выход\n";
 
 print "Ваш выбор: ";
 $choice = <STDIN>;
+chomp $choice;
 
-while ($choice >=1 && $choice <=3) {
+while ($choice >= 1 && $choice <= 3) {
+
     if ($choice == 3) {
         print "\nСписок:\n";
 
         $temp = $head;
 
-        while ($temp != "") {
-            print "$temp";
+        while ($temp ne "") {
+            print $temp;
 
             if ($h{$temp} ne "") {
                 print " -> ";
@@ -36,6 +30,7 @@ while ($choice >=1 && $choice <=3) {
 
             $temp = $h{$temp};
         }
+
         print "\n";
     }
 
@@ -44,63 +39,76 @@ while ($choice >=1 && $choice <=3) {
         $newWord = <STDIN>;
         chomp $newWord;
 
-        if ($h{$newWord} > 0) {
-            print "Такая лексема уже существует!\n";
-            next;
+        if ($newWord eq "") {
+            print "Лексема не может быть пустой!\n";
         }
-
-        if ($head == "") {
+        elsif (exists $h{$newWord}) {
+            print "Такая лексема уже существует!\n";
+        }
+        elsif ($head eq "") {
             $head = $newWord;
             $h{$newWord} = "";
+            print "Лексема добавлена.\n";
         }
-        elsif ($newWord == $head) {
+        elsif ($newWord lt $head) {
             $h{$newWord} = $head;
             $head = $newWord;
+            print "Лексема добавлена.\n";
         }
-
         else {
-
             $temp = $head;
 
-            while ($h{$temp} != "" &&
-                   $h{$temp} lt $newWord) {
-
+            while ($h{$temp} ne "" && $h{$temp} lt $newWord) {
                 $temp = $h{$temp};
             }
+
             $h{$newWord} = $h{$temp};
             $h{$temp} = $newWord;
-        }
 
-        print "Лексема добавлена.\n";
-    } elsif ($choice == 2) {
+            print "Лексема добавлена.\n";
+        }
+    }
+
+    elsif ($choice == 2) {
         print "Введите лексему для удаления: ";
         $deleteWord = <STDIN>;
         chomp $deleteWord;
 
-        if ($head == $deleteWord) {
+        if (!exists $h{$deleteWord}) {
+            print "Такой лексемы нет в списке.\n";
+        }
+        elsif ($head eq $deleteWord) {
             $head = $h{$deleteWord};
             delete $h{$deleteWord};
+
             print "Лексема удалена.\n";
         }
-
         else {
             $temp = $head;
             $found = 0;
-            while ($temp != "") {
-                if ($h{$temp} == $deleteWord) {
+
+            while ($temp ne "") {
+                if ($h{$temp} eq $deleteWord) {
                     $h{$temp} = $h{$deleteWord};
                     delete $h{$deleteWord};
+
                     $found = 1;
                     print "Лексема удалена.\n";
                     last;
                 }
+
                 $temp = $h{$temp};
             }
-            if ($found == 0) {
+
+            if (!$found) {
                 print "Такой лексемы нет в списке.\n";
             }
         }
     }
-    print "Выберите пункт: ";
+
+    print "\nВыберите пункт: ";
     $choice = <STDIN>;
+    chomp $choice;
 }
+
+print "Программа завершена.\n";
