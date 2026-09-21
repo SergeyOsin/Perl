@@ -16,19 +16,6 @@ for ($i=0;$i <= $#arrayFirst; $i++){
 }
 for ($j=0;$j <= $#arraySecond; $j++){
     $arrayResult[$j*2+1]=$arraySecond[$j];
-
 }
-
-# if ($#arrayFirst > $minLen) {
-#     for ($j = $minLen + 1; $j <= $#arrayFirst; $j+=2) {
-#         $arrayResult[$j+$minLen+1] = $arrayFirst[$j];
-#         $arrayResult[$j+$minLen+2]=" ";
-#     }
-# } elsif ($#arraySecond > $minLen) {
-#     for ($j = $minLen + 1; $j <= $#arraySecond; $j+=2) {
-#         $arrayResult[$j+$minLen+1]=" ";
-#         $arrayResult[$j+$minLen+2] = $arraySecond[$j];
-#     }
-# }
 
 print "Итоговый массив: ", "@arrayResult";
