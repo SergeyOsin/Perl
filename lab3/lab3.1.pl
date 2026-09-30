@@ -2,26 +2,26 @@
 
 sub insert {
     my ($head, $student) = @_;
-
     if (!defined $head || $student->{recordbook} < $head->{recordbook}) {
         $student->{next} = $head;
         return $student;
     }
-
     if ($student->{recordbook} == $head->{recordbook}) {
         print "Студент с таким номером зачетной книжки уже существует!\n";
         return $head;
     }
-
+    
     $head->{next} = insert($head->{next}, $student);
+    print "Студент с номером зачетной книжки $recordbook добавлен\n";
+
     return $head;
 }
 
-
 sub delete_student {
     my ($head, $key) = @_;
-
-    return undef unless defined $head;
+    if (!defined $head){
+        return undef;
+    }
 
     if ($head->{recordbook} == $key) {
         return $head->{next};
@@ -38,7 +38,6 @@ sub delete_student {
 
 sub print_list {
     my ($head) = @_;
-
     if ($head == 0){
         print "Список пустой\n\n";
         return;
@@ -49,12 +48,9 @@ sub print_list {
     local $~ = "HEADER";
     write;
     while (defined $head) {
-
         $student = $head;
-
         local $~ = "STUDENT";
         write;
-
         $head = $head->{next};
     }
 }
@@ -66,7 +62,7 @@ format HEADER =
 .
 
 format STUDENT =
-| @<<<<<<<<<<<<<<<<<<<<<<< | @<<<<<<<<<<<<<< | @<<<<<<<<< | @<<<<<<<<<<<<<<<<<<<<<<< | @<<<<<<<<<<<< |
+| @<<<<<<<<<<<<<<<<<<<<<<< | @<<<<<<<<<<<<<< | @<<<<<<<<< | @<<<<<<<<<<<<<<<<<<<<<<< | @<<<<<<<<<<< |
 $student->{name},            $student->{recordbook}, $student->{group}, $student->{specialty}, $student->{birth_year}
 +--------------------------+-----------------+------------+--------------------------+--------------+
 .
@@ -76,8 +72,8 @@ print "1. Добавить студента \n";
 print "2. Удалить студента\n";
 print "3. Вывести список студентов\n";
 print "Любой другой выбор - завершение программы \n";
-print "Выбор: ";
 
+print "Выбор: ";
 $choose = <STDIN>;
 
 while ($choose > 0 && $choose <4){
@@ -111,7 +107,6 @@ while ($choose > 0 && $choose <4){
             next       => undef
         };
         $head = insert($head, $student);
-
         print "\n\n";
     }
     elsif ($choose == 2) {

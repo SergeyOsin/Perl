@@ -134,12 +134,10 @@ while (1) {
     if ($choice == 1) {
 
         print "Введите целое число: ";
-
         my $value = <STDIN>;
         chomp $value;
 
         my $old_root = $root;
-
         $root = insert($root, $value);
 
         if (!defined $old_root) {
@@ -156,7 +154,6 @@ while (1) {
             print_tree($root, 0, "root");
         }
         else {
-
             print "Дерево пустое.\n";
         }
     }
@@ -168,39 +165,28 @@ while (1) {
         my $value = <STDIN>;
         chomp $value;
 
-        if ($value =~ /^-?\d+$/) {
+        if (defined $root) {
 
-            if (defined $root) {
+            my ($new_root, $deleted) = delete_node($root, $value);
 
-                my ($new_root, $deleted) =
-                    delete_node($root, $value);
+            $root = $new_root;
 
-                $root = $new_root;
-
-                if ($deleted) {
-                    print "Элемент $value успешно удалён.\n";
-                }
-                else {
-                    print "Элемент $value не найден в дереве.\n";
-                }
+            if ($deleted) {
+                print "Элемент $value успешно удалён.\n";
             }
             else {
-
-                print "Дерево пустое. Элемент $value не найден.\n";
-            }
+                print "Элемент $value не найден в дереве.\n";
+            }    
         }
         else {
-
-            print "Введите целое число!\n";
+             print "Дерево пустое. Элемент $value не найден.\n";
         }
     }
     elsif ($choice == 0) {
-
         print "Программа завершена.\n";
         last;
     }
     else {
-
         print "Неверный пункт меню!\n";
     }
 }

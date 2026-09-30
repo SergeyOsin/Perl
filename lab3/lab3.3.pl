@@ -52,7 +52,7 @@ my @b;
 my @c;
 
 for (my $i = $n; $i >= 1; $i--) {
-    push @a, $i;
+    $a[$#a + 1] = $i;
 }
 
 my %rods = (
