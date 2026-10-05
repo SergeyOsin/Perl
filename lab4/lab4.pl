@@ -139,7 +139,7 @@ while ($choose >= 1 && $choose <=5 || !defined $choose){
         my $first_node = find_node($list_head, $first_name); 
         if (!defined $first_node){
              print "Прибор с названием $first_name не найден\n\n";
-              next;
+            next;
         }
 
         print "Введите название второго прибора: ";
