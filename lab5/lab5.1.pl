@@ -1,19 +1,21 @@
 #!/usr/bin/perl
 
+open ($newFile, '>', "outputHanoi.txt") or die ("Не удалось открыть файл");
+
 sub print_rods {
     my ($a, $b, $c) = @_;
 
-    print "A: ";
-    print @$a ? join(" ", @$a) : "-";
-    print "\n";
+    print $newFile "A: ";
+    print $newFile @$a ? join(" ", @$a) : "-";
+    print $newFile "\n";
 
-    print "B: ";
-    print @$b ? join(" ", @$b) : "-";
-    print "\n";
+    print $newFile "B: ";
+    print $newFile @$b ? join(" ", @$b) : "-";
+    print $newFile "\n";
 
-    print "C: ";
-    print @$c ? join(" ", @$c) : "-";
-    print "\n";
+    print $newFile "C: ";
+    print $newFile @$c ? join(" ", @$c) : "-";
+    print $newFile "\n";
 }
 
 sub move_disk {
@@ -22,7 +24,7 @@ sub move_disk {
     my $disk = pop @{$rods->{$from}};
     push @{$rods->{$to}}, $disk;
 
-    print "\nПеренос диска диаметром $disk со стержня $from на стержень $to\n";
+    print $newFile "\nПеренос диска диаметром $disk со стержня $from на стержень $to\n";
 
     print_rods(
         $rods->{A},
@@ -47,6 +49,8 @@ print "Введите количество дисков: ";
 my $n = <STDIN>;
 chomp $n;
 
+print $newFile "Количество дисков: $n\n\n";
+
 my @a;
 my @b;
 my @c;
@@ -61,10 +65,13 @@ my %rods = (
     C => \@c
 );
 
-print "\nНачальное состояние:\n";
+print $newFile "Начальное состояние:\n";
 print_rods($rods{A}, $rods{B}, $rods{C});
 
 hanoi($n, "A", "C", "B", \%rods);
 
-print "\nКонечное состояние:\n";
+print $newFile "\nКонечное состояние:\n";
 print_rods($rods{A}, $rods{B}, $rods{C});
+
+print "Решение записано в текстовый файл - outputHanoi!";
+close($newFile);

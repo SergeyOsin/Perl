@@ -44,7 +44,7 @@ sub compareCost{
           print "Стоимость " . $self->{name} . " меньше ". $other->{name};
      }
      else{
-          print "Стоимость у предметов ". $self ->{name} . " и " . $other->{name} . "одинаковая";
+          print "Стоимость у предметов ". $self ->{name} . " и " . $other->{name} . " одинаковая";
      }
 }
 
