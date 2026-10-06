@@ -4,16 +4,20 @@ print "Имя каталога: ";
 my $nameDir = <STDIN>;
 chomp ($nameDir);
 
-print "Введите расширение для удаления (без точки, например log): ";
+if (! -d $nameDir){
+   die "Каталога с названием $nameDir не существует";
+}
+
+print "Расширение для удаления (без точки): ";
 my $choose = <STDIN>;
 chomp($choose);
 
-my $countDelete = 0;
+$countDelete = 0;
 
 sub process_directory {
     my ($path, $ext, $countRef) = @_;
 
-    opendir(my $dh, $path) or die "Не могу открыть $path: $!";
+    opendir(my $dh, $path);
     my @allFiles = readdir($dh);
     closedir($dh);
 
@@ -25,13 +29,13 @@ sub process_directory {
         if (-d $full_path) {
             process_directory($full_path, $ext, $countRef);
         }
-
         elsif (-f $full_path) {
             my $ext_length = length($ext) + 1; 
             if (length($file) >= $ext_length) {
                 my $ending = substr($file, -$ext_length);
                 if ($ending eq ".$ext") {
-                     $countDelete++;
+                    $countDelete++;
+                    unlink($full_path);
                 }
             }
         }

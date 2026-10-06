@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-open ($newFile, '>', "outputHanoi.txt") or die ("Не удалось открыть файл");
+open ($newFile, '>', "outputHanoi.txt");
 
 sub print_rods {
     my ($a, $b, $c) = @_;
