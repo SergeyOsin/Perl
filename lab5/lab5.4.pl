@@ -1,34 +1,39 @@
 #!/usr/bin/perl
 
 print "Имя каталога для перемещения: ";
-my $nameCurrentDir = <STDIN>;
+$nameCurrentDir = <STDIN>;
 chomp($nameCurrentDir);
 
 if (!-d $nameCurrentDir) {
-    die "Ошибка: исходный каталог $nameCurrentDir не существует.\n";
+    die "Исходного каталога $nameCurrentDir не существует.\n";
 }
 
-print "Имя каталога, в которую переместится: ";
-my $nameMovingDir = <STDIN>;
+print "Имя каталога, в которую переместится каталог: ";
+$nameMovingDir = <STDIN>;
 chomp($nameMovingDir);
 
-if ($nameCurrentDir == $nameMovingDir) {
+if (!-d $nameMovingDir){
+    die "Целевого каталога $nameMovingDir не существует";
+}
+
+if ($nameCurrentDir eq $nameMovingDir) {
     die "Переместить каталог в тот же нельзя!\n";
 }
 
-$nameCurrentDir =~ s{/$}{};
-$nameMovingDir =~ s{/$}{};
-
-my $destination = "$nameMovingDir/" . (split('/', $nameCurrentDir))[-1];
+$destination = "$nameMovingDir/" . (split('/', $nameCurrentDir))[-1];
 
 sub copy_directory {
     my ($from, $to) = @_;
     
+    mkdir $to;
+
     opendir(my $dh, $from);
     my @items = readdir($dh);
     closedir($dh);
 
-    foreach my $item (@items) {        
+    foreach my $item (@items) {   
+        next if $item eq '.' || $item eq '..';
+
         my $source = "$from/$item";
         my $dest = "$to/$item";
 
