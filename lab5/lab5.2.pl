@@ -1,14 +1,14 @@
 #!/usr/bin/perl
 
-my $output_to_file = 0;
-my $output_handle = *STDOUT;
+$output_to_file = 0;
+$output_handle = *STDOUT;
 
 if (@ARGV > 0 && $ARGV[0] eq 'file') {
     $output_to_file = 1;
 }
 
 if ($output_to_file) {
-    open(my $fh, '>', 'output5.2.txt');
+    open($fh, '>', 'output5.2.txt');
     $output_handle = $fh;
     print "Ответ будет записан в файл output5.2.txt\n";
 }
