@@ -40,7 +40,6 @@ sub to_roman {
         while ($number >= $value) {
             $roman .= $numeral;
             $number -= $value;
-            $countChanged++;
         }
     }
 

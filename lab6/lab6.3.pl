@@ -24,17 +24,14 @@ sub from_roman {
         L => 50,
         C => 100,
         D => 500,
-        M => 1000,
-        Vt => 5000,
-        Xt => 10000
+        M => 1000
     );
 
     my $number = 0;
     my @symbols = split //, $roman;
 
     for (my $i = 0; $i < @symbols; $i++) {
-        if ($i < $#symbols &&
-            $values{$symbols[$i]} < $values{$symbols[$i + 1]}) {
+        if ($values{$symbols[$i]} < $values{$symbols[$i + 1]}) {
             $number -= $values{$symbols[$i]};
         } else {
             $number += $values{$symbols[$i]};
@@ -54,8 +51,9 @@ my $pattern = qr/
 /ix;
 
 $text =~ s/($pattern)(?=\s|\W|$)/
-    length($1) ? from_roman(uc($1)) : $1
+    from_roman(uc($1))
 /ge;
+
 
 open(my $writeFile, '>', $file);
 
