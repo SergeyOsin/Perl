@@ -8,8 +8,7 @@ if (!-f $file) {
     die "Файла с названием $file не существует\n";
 }
 
-open(my $readFile, '<', $file)
-    or die "Не удалось открыть файл для чтения: $!\n";
+open(my $readFile, '<', $file);
 
 my $text = do { local $/; <$readFile> };
 close($readFile);
@@ -38,7 +37,7 @@ sub from_roman {
         }
     }
 
-    return $number;
+    return $number > 0 ? $number: " ";
 }
 
 my $pattern = qr/
