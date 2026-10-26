@@ -16,11 +16,11 @@ sub internet_tcp_client {
 
       send($client, $message, 0);
          
-      print "Сообщение отправлено.\n\n";
+      print "Сообщение отправлено.\n";
 
       recv($client, $revData, 1024, 0);
 
-      print "Ответ от сервера: $revData\n";
+      print "Ответ от сервера: $revData\n\n";
     }
     close($client);
 }

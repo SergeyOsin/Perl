@@ -2,6 +2,7 @@
 
 use IO::Socket::INET;
 use IO::Socket::UNIX;
+unlink 'tmp.tmp';
 
 my $PORT = 5050;
 my $UNIX_PATH = 'tmp.tmp';
@@ -22,13 +23,13 @@ chomp(my $protocol = <STDIN>);
 
 print "\nЗапуск сервера...\n";
 
-if ($domain eq "1" && $protocol eq "1") {
+if ($domain + $protocol eq "11") {
     internet_tcp();
 }
-elsif ($domain eq "1" && $protocol eq "2") {
+elsif ($domain eq "1") {
     internet_udp();
 }
-elsif ($domain eq "2" && $protocol eq "1") {
+elsif ($domain + $protocol eq "21") {
     unix_tcp();
 }
 else {

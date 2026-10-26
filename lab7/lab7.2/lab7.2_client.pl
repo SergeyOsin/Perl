@@ -23,13 +23,13 @@ $protocol = <STDIN>;
 chomp($protocol);
 
 
-if ($domain + $protocol == 2) {
+if ($domain + $protocol eq "11") {
     internet_tcp();
 }
 elsif ($domain eq "1") {
     internet_udp();
 }
-elsif ($domain + $protocol == 3) {
+elsif ($domain + $protocol eq "21") {
     unix_tcp();
 }
 else {
@@ -97,7 +97,9 @@ sub unix_udp {
     while (1) {
         my $message = read_message();
 
-        $client->send($message, 0, $UNIX_PATH)
+        my $address = IO::Socket::UNIX::sockaddr_un($UNIX_PATH);
+
+        $client->send($message, 0, $address)
             or die "Ошибка отправки: $!\n";
 
         print "Сообщение отправлено.\n\n";

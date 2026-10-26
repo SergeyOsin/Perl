@@ -20,13 +20,13 @@ print "Протокол (1 или 2): ";
 my $protocol = <STDIN>;
 chomp($protocol);
 
-if ($domen + $protocol == 2) {
+if ($domen + $protocol eq "11") {
     internet_tcp();
 }
-elsif ($domen == 1) {
+elsif ($domen eq "1") {
     internet_udp();
 }
-elsif ($domen + $protocol == 3) {
+elsif ($domen + $protocol eq "21") {
     unix_tcp();
 }
 else {
