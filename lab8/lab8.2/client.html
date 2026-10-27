@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Данные пассажира</title>
+</head>
+<body>
+    <h1>Данные пассажира</h1>
+
+    <form action="/cgi-bin/bilet.pl" method="post">
+        <input type="hidden" name="action" value="client">
+
+        <p>
+            <label>Фамилия и имя:</label><br>
+            <input type="text" name="fullname"
+                   required maxlength="100">
+        </p>
+
+        <p>
+            <label>Электронная почта:</label><br>
+            <input type="email" name="email" required>
+        </p>
+
+        <p>
+            <label>Телефон:</label><br>
+            <input type="tel" name="phone" required>
+        </p>
+
+        <p>
+            <label>Номер документа:</label><br>
+            <input type="text" name="document" required
+                   maxlength="30">
+        </p>
+
+        <button type="submit">Отправить данные</button>
+    </form>
+
+    <p><a href="index.html">На главную</a></p>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ авиабилетов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef3f8;
+            padding: 25px;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        label { display: block; margin-top: 15px; }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #1769aa;
+            color: white;
+            border: 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<form action="/cgi-bin/bilet.pl" method="post">
+    <h1>Поиск авиабилетов</h1>
+
+    <label>Город отправления</label>
+    <select name="from" required>
+        <option value="Москва">Москва</option>
+        <option value="Санкт-Петербург">Санкт-Петербург</option>
+        <option value="Сочи">Сочи</option>
+    </select>
+
+    <label>Город назначения</label>
+    <select name="to" required>
+        <option value="Санкт-Петербург">Санкт-Петербург</option>
+        <option value="Москва">Москва</option>
+        <option value="Сочи">Сочи</option>
+        <option value="Казань">Казань</option>
+        <option value="Калининград">Калининград</option>
+    </select>
+
+    <label>Дата вылета</label>
+    <input type="date" name="date" required>
+
+    <label>Количество пассажиров</label>
+    <input type="number" name="count"
+           min="1" max="9" value="1" required>
+
+    <button type="submit">Найти билеты</button>
+    <p><a href="index.html">На главную</a></p>
+</form>
+</body>
+</html>
