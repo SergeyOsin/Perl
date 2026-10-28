@@ -305,20 +305,21 @@ sub book_ticket {
         . html_escape($f->{price}) . ' руб.</p>';
     print '<h2>Итого: ' . html_escape($total) . ' руб.</h2>';
     print '<p>Контактный email: ' . html_escape($email) . '</p>';
-    print '<p>Это подтверждение демонстрационного заказа. '
-        . 'Реальная бронь и оплата не выполняются.</p>';
+
 
     page_end();
 }
 
+
 sub client_form {
     my (%form) = @_;
 
-    my $name = $form{'fullname'} // '';
-    my $email = $form{'email'} // '';
-    my $phone = $form{'phone'} // '';
+    my $name     = $form{'fullname'} // '';
+    my $email    = $form{'email'} // '';
+    my $phone    = $form{'phone'} // '';
     my $document = $form{'document'} // '';
 
+    # Проверка введённых данных
     if ($name !~ /\S/ || length($name) > 100
         || $email !~ /^[^\s\@]+\@[^\s\@]+\.[^\s\@]+$/
         || length($email) > 150
@@ -328,16 +329,46 @@ sub client_form {
         return;
     }
 
-    page_start('Данные пассажира');
-    print '<h1>Данные успешно обработаны</h1>';
+    # Файл clients.txt находится рядом с bilet.pl
+    my $file = "$RealBin/clients.txt";
+
+    open(my $fh, '>>:encoding(UTF-8)', $file)
+        or do {
+            show_error('Не удалось открыть файл для сохранения клиентов. Проверьте права доступа.');
+            return;
+        };
+
+    my @fields = ($name, $email, $phone, $document);
+
+    for my $field (@fields) {
+        $field =~ s/[\r\n]+/ /g;
+    }
+
+    print {$fh} join('|', @fields), "\n"
+        or do {
+            close($fh);
+            show_error('Не удалось записать данные клиента в файл.');
+            return;
+        };
+
+    close($fh)
+        or do {
+            show_error('Не удалось завершить запись данных клиента.');
+            return;
+        };
+
+    page_start('Данные сохранены');
+
+    print '<h1>Данные клиента сохранены!</h1>';
     print '<p>Фамилия и имя: ' . html_escape($name) . '</p>';
     print '<p>Email: ' . html_escape($email) . '</p>';
     print '<p>Телефон: ' . html_escape($phone) . '</p>';
     print '<p>Номер документа: ' . html_escape($document) . '</p>';
-    print '<p>Демонстрационная форма обработана серверной CGI-программой. '
-        . 'Введённые персональные данные не сохраняются.</p>';
+    print '<p>Данные записаны в файл clients.txt.</p>';
+
     page_end();
 }
+
 
 my %form = read_form();
 my $action = $form{'action'} // '';
